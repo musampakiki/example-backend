@@ -1,60 +1,99 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsOptional, IsString, Length } from 'class-validator';
+import { IsOptional, IsString, IsEmail, IsNotEmpty, IsEnum, ValidateNested, IsArray } from 'class-validator';
+import { Type } from 'class-transformer';
+import { CreateRoleDto } from './role.dto';
+import { CreateBanDto } from './ban.dto';
+
+
+enum Gender {
+    MALE = 'male',
+    FEMALE = 'female',
+    OTHER = 'other'
+}
 
 export class CreateUserDto {
-    @ApiProperty({ example: 'login22', description: 'User login' })
     @IsString()
-    readonly username: string;
+    @IsNotEmpty()
+    @ApiProperty()
+    readonly firstName: string;
 
-    @ApiProperty({ example: 'Jerry', description: 'User firstname' })
-    @IsOptional()
     @IsString()
-    readonly firstname?: string;
+    @IsNotEmpty()
+    @ApiProperty()
+    readonly lastName: string;
 
-    @ApiProperty({ example: 'Green', description: 'User lastname' })
-    @IsOptional()
-    @IsString()
-    readonly lastname?: string;
-
-    @ApiProperty({ example: 'example@gmail.com', description: 'User email' })
-    @IsString()
+    @IsEmail()
+    @IsNotEmpty()
+    @ApiProperty()
     readonly email: string;
 
-    @ApiProperty({ example: '123456', description: 'User password' })
     @IsString()
-    @Length(6, 16)
+    @IsNotEmpty()
+    @ApiProperty()
     readonly password: string;
+
+    @IsString()
+    @ApiProperty()
+    @IsOptional()
+    readonly avatar?: string;
+
+    @IsEnum(Gender)
+    @ApiProperty({ enum: Gender, example: ['MALE', 'FEMALE', 'OTHER'] })
+    readonly gender: Gender;
+
+    @ValidateNested()
+    @Type(() => CreateRoleDto)
+    @IsArray()
+    @ApiProperty({ type: [CreateRoleDto] })
+    readonly roles: CreateRoleDto[];
+
+    @ValidateNested()
+    @Type(() => CreateBanDto)
+    @ApiProperty({ type: CreateBanDto })
+    readonly ban: CreateBanDto;
 }
 
 export class UpdateUserDto {
-    @ApiProperty({ example: 'login22', description: 'User login' })
-    @IsOptional()
     @IsString()
-    readonly username?: string;
+    @IsOptional()
+    @ApiProperty()
+    readonly firstName?: string;
 
-    @ApiProperty({ example: 'Jerry', description: 'User firstname' })
-    @IsOptional()
     @IsString()
-    readonly firstname?: string;
+    @IsOptional()
+    @ApiProperty()
+    readonly lastName?: string;
 
-    @ApiProperty({ example: 'Green', description: 'User lastname' })
+    @IsEmail()
     @IsOptional()
-    @IsString()
-    readonly lastname?: string;
-
-    @ApiProperty({ example: 'example@gmail.com', description: 'User email' })
-    @IsOptional()
-    @IsString()
+    @ApiProperty()
     readonly email?: string;
 
-    @ApiProperty({ example: '123456', description: 'User password' })
-    @IsOptional()
     @IsString()
-    @Length(6, 16)
+    @IsOptional()
+    @ApiProperty()
     readonly password?: string;
 
-    @ApiProperty({ example: 'true', description: 'User verified' })
+    @IsString()
     @IsOptional()
-    @IsBoolean()
-    readonly verified?: boolean;
+    @ApiProperty()
+    readonly avatar?: string;
+
+    @IsEnum(Gender)
+    @IsOptional()
+    @ApiProperty({ enum: Gender })
+    readonly gender?: Gender;
+
+    @ValidateNested()
+    @Type(() => CreateRoleDto)
+    @IsOptional()
+    @IsArray()
+    @ApiProperty({ type: [CreateRoleDto] })
+    readonly roles?: CreateRoleDto[];
+
+    @ValidateNested()
+    @Type(() => CreateBanDto)
+    @IsOptional()
+    @ApiProperty({ type: CreateBanDto })
+    readonly ban?: CreateBanDto;
 }

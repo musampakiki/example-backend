@@ -1,14 +1,20 @@
-import { Table, Model, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { User } from './users.entity';
 import { Role } from './roles.entity';
 
-@Table({ tableName: 'user_roles' })
+@Table
 export class UserRoles extends Model<UserRoles> {
     @ForeignKey(() => User)
-    @BelongsTo(() => User)
-    user_id: number;
+    @Column
+    userId: number;
 
     @ForeignKey(() => Role)
+    @Column
+    roleId: number;
+
+    @BelongsTo(() => User)
+    user: User;
+
     @BelongsTo(() => Role)
-    role_id: number;
+    role: Role;
 }

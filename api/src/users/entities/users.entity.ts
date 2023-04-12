@@ -1,46 +1,51 @@
-import { Column, DataType, Model, Table, BelongsToMany, HasOne } from 'sequelize-typescript';
+import { ApiProperty } from '@nestjs/swagger';
+import { Table, Column, Model, DataType, ForeignKey, BelongsToMany, BelongsTo } from 'sequelize-typescript';
+import { Ban } from './ban.entity';
 import { Role } from './roles.entity';
 import { UserRoles } from './user-roles.entity';
-import { Ban } from './ban.entity';
-import { ApiProperty } from "@nestjs/swagger";
+// import { UserBan } from './user-ban.entity';
 
-@Table({ tableName: 'users' })
+@Table
 export class User extends Model<User> {
-    @ApiProperty({ example: '1', description: 'unique id' })
-    @Column({ type: DataType.INTEGER, autoIncrement: true, primaryKey: true })
+    @ApiProperty({ example: 1, description: 'Unique identifier' })
+    @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
     id: number;
 
-    @ApiProperty({ example: 'login22', description: 'User login' })
-    @Column({ type: DataType.STRING, allowNull: false })
-    username: string;
-
-    @ApiProperty({ example: 'Jerry', description: 'User firstname' })
-    @Column({ type: DataType.STRING, allowNull: true })
-    firstname: string;
-
-    @ApiProperty({ example: 'Green', description: 'User lastname' })
-    @Column({ type: DataType.STRING, allowNull: true })
-    lastname: string;
-
-    @ApiProperty({ example: 'example@gmail.com', description: 'User email' })
-    @Column({ type: DataType.STRING, unique: true, allowNull: false })
+    @ApiProperty({ example: 'user@example.com', description: 'Email address' })
+    @Column({ type: DataType.STRING(100), unique: true, allowNull: false })
     email: string;
 
-    @ApiProperty({ example: '123456', description: 'User password' })
-    @Column({ type: DataType.STRING, allowNull: false })
+    @ApiProperty({ example: 'password', description: 'Password' })
+    @Column({ type: DataType.STRING(100), allowNull: false })
     password: string;
 
+    @ApiProperty({ example: 'John', description: 'First name' })
+    @Column({ type: DataType.STRING(50), allowNull: false })
+    firstName: string;
+
+    @ApiProperty({ example: 'Doe', description: 'Last name' })
+    @Column({ type: DataType.STRING(50), allowNull: false })
+    lastName: string;
+
+    @ApiProperty({ example: 'example.com/avatar.jpg', description: 'Avatar image URL' })
+    @Column({ type: DataType.STRING })
+    avatar: string;
+
     @ApiProperty({ example: 'true', description: 'User verified' })
-    @Column({ type: DataType.BOOLEAN, defaultValue: false })
+    @Column({ type: DataType.BOOLEAN })
     verified: boolean;
 
-    @ApiProperty({ example: '/path/to/avatar.jpg', description: 'Avatar path' })
-    @Column({ type: DataType.STRING, allowNull: true })
-    avatar: string;
+    @ForeignKey(() => Role)
+    @Column({ type: DataType.INTEGER })
+    roleId: number;
 
     @BelongsToMany(() => Role, () => UserRoles)
     roles: Role[];
 
-    @HasOne(() => Ban)
+    @ForeignKey(() => Ban)
+    @Column({ type: DataType.INTEGER })
+    banId: number;
+
+    @BelongsTo(() => Ban)
     ban: Ban;
 }
