@@ -1,33 +1,17 @@
 import {Module} from "@nestjs/common";
 import { SequelizeModule } from "@nestjs/sequelize"
-import { UsersModule } from './users/modules/users.module';
 import {ConfigModule} from "@nestjs/config";
 import *as path from "path"
-import { User } from "./users/models/users.model";
-import { RolesModule } from './admin/modules/roles.module';
-import {Role} from "./admin/models/roles.model";
-import {UserRoles} from "./admin/dto/user-roles.model";
-import { AuthModule } from './admin/modules/auth.module';
-import { PostsModule } from './posts/modules/posts.module';
-import {Post} from "./posts/model/posts.model";
-import { FilesModule } from './files/files.module';
 import {ServeStaticModule} from "@nestjs/serve-static";
-import {Product} from "./products/model/product.model";
-import {Cart} from "./products/model/cart.model";
-import {CartModule} from "./products/modules/cart.module";
-import {ProductsModule} from "./products/modules/products.module";
-import {BrandModule} from "./products/modules/brands.module";
-import {AssortmentsModule} from "./products/modules/assortments.module";
-import {Assortment} from "./products/model/assortment.model";
-import {Brand} from "./products/model/brand.model";
-import {AssortmentBrand} from "./products/model/assortment-brand.model";
-import {CartProducts} from "./products/model/cart-products.model";
-import {ProductInfo} from "./products/model/product-info.model";
-import {Rating} from "./products/model/rating.model";
-import {TestBrand} from "./products/model/testBrand";
-import {TestBrandModule} from "./products/modules/testBrands.module";
-//import { MailService } from './admin/mail/mail.service';
-//import { MailModule } from './admin/mail/mail.module';
+import { UsersModule } from './users/modules/users.module';
+import { User } from "./users/entities/users.entity";
+import { RolesModule } from './users/modules/roles.module';
+import {Role} from "./users/entities/roles.entity";
+import {UserRoles} from "./users/entities/user-roles.entity";
+import { BanModule } from './users/modules/ban.module';
+import {Ban} from "./users/entities/ban.entity";
+import {UserBan} from "./users/entities/user-ban.entity";
+
 
 
 @Module({
@@ -52,31 +36,15 @@ import {TestBrandModule} from "./products/modules/testBrands.module";
         User,
         Role,
         UserRoles,
-        Post,
-        Cart,
-        Product,
-        Assortment,
-        Brand,
-        AssortmentBrand,
-        CartProducts,
-        ProductInfo,
-        Rating,
-        TestBrand,
+        Ban,
+        UserBan,
       ],
       autoLoadModels: true
     }),
-        ProductsModule,
-        CartModule,
-        BrandModule,
-        AssortmentsModule,
         ConfigModule,
         UsersModule,
         RolesModule,
-        AuthModule,
-        PostsModule,
-        FilesModule,
-        TestBrandModule,
-        // MailModule,
+        BanModule,
   ],
   providers: [],
 })
