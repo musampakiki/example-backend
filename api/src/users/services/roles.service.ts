@@ -36,7 +36,7 @@ export class RoleService {
         return await role.save();
     }
 
-    async update(id: number, updateRoleDto: UpdateRoleDto): Promise<[number, Role[]]> {
+    async update(id: number, updateRoleDto: UpdateRoleDto): Promise<Role> {
         const role = await this.getRoleById(id);
 
         if (!role) {
@@ -48,8 +48,6 @@ export class RoleService {
         role.description = updateRoleDto.description
 
         await role.save();
-
-        return [role.userId, [role]];
     }
 
     async delete(id: number): Promise<void> {

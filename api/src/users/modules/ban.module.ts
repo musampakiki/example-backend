@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Ban } from '../entities/ban.entity';
-import { BanController } from '../controllers/bans.controller';
-import { BanService } from '../services/bans.service';
+import { BanController } from '../controllers/ban.controller';
+import { BanService } from '../services/ban.service';
 
 @Module({
     imports: [SequelizeModule.forFeature([Ban])],

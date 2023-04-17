@@ -36,7 +36,7 @@ export class BanService {
         return bans.filter((ban) => !ban.expiredAt || ban.expiredAt.getTime() >= Date.now());
     }
 
-    async updateBan(id: number, updateBanDto: UpdateBanDto): Promise<[number, Ban[]]> {
+    async updateBan(id: number, updateBanDto: UpdateBanDto): Promise<Ban> {
         const ban = await this.getBanById(id);
 
         if (!ban) {
@@ -47,9 +47,7 @@ export class BanService {
         ban.reason = updateBanDto.reason;
         ban.expiredAt = new Date(Date.now() + updateBanDto.duration);
 
-        await ban.save();
-
-        return [ban.userId, [ban]];
+        return ban.save();
     }
 
     async deleteBan(id: number): Promise<void> {
