@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsEmail, IsNotEmpty, IsEnum, ValidateNested, IsArray } from 'class-validator';
+import {IsOptional, IsString, IsEmail, IsNotEmpty, IsEnum, ValidateNested, IsArray, IsNumber} from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateRoleDto } from './role.dto';
 import { CreateBanDto } from './ban.dto';
@@ -12,6 +12,11 @@ enum Gender {
 }
 
 export class CreateUserDto {
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
+
     @IsString()
     @IsNotEmpty()
     @ApiProperty()
@@ -54,6 +59,11 @@ export class CreateUserDto {
 }
 
 export class UpdateUserDto {
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
+
     @IsString()
     @IsOptional()
     @ApiProperty()

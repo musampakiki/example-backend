@@ -1,11 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsDate } from 'class-validator';
+import { IsString, IsNotEmpty, IsDate, IsNumber } from 'class-validator';
 
 export class CreateBanDto {
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsNumber()
+    userId: number;
+
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
     reason: string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    duration: number;
 
     @ApiProperty()
     @IsNotEmpty()
@@ -15,9 +24,18 @@ export class CreateBanDto {
 
 export class UpdateBanDto {
     @ApiProperty()
+    @IsNotEmpty()
+    @IsNumber()
+    userId: number;
+
+    @ApiProperty()
     @IsString()
     @IsNotEmpty()
     reason: string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    duration: number;
 
     @ApiProperty()
     @IsNotEmpty()

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import {BelongsToMany, Column, DataType, ForeignKey, Model, Table} from 'sequelize-typescript';
 import { User } from './users.entity';
 import { UserRoles } from './user-roles.entity';
 
@@ -20,7 +20,7 @@ export class Role extends Model<Role> {
         unique: true,
         allowNull: false,
     })
-    value: string;
+    name: string;
 
     @ApiProperty({ example: 'Role for administrator', description: 'Role description' })
     @Column({
@@ -28,6 +28,10 @@ export class Role extends Model<Role> {
         allowNull: true,
     })
     description: string;
+
+    @ForeignKey(() => User)
+    @Column({ type: DataType.INTEGER })
+    userId: number;
 
     @BelongsToMany(() => User, () => UserRoles)
     users: User[];

@@ -3,7 +3,6 @@ import { Table, Column, Model, DataType, ForeignKey, BelongsToMany, BelongsTo } 
 import { Ban } from './ban.entity';
 import { Role } from './roles.entity';
 import { UserRoles } from './user-roles.entity';
-// import { UserBan } from './user-ban.entity';
 
 @Table
 export class User extends Model<User> {
