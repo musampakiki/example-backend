@@ -5,7 +5,7 @@ import { CreateRoleDto, UpdateRoleDto } from '../dto/role.dto';
 import { Role } from '../entities/roles.entity';
 
 @ApiTags('roles')
-@Controller('roles')
+@Controller('api/roles')
 export class RoleController {
     constructor(private readonly roleService: RoleService) {}
 
@@ -29,6 +29,14 @@ export class RoleController {
     @Get(':id')
     async getRoleById(@Param('id') roleId: number): Promise<Role> {
         return await this.roleService.getRoleById(roleId);
+    }
+
+    @ApiOperation({ summary: 'Get role by id' })
+    @ApiResponse({ status: 200, description: 'Return a single role.', type: Role })
+    @ApiResponse({ status: 404, description: 'Role not found.' })
+    @Get(':id')
+    async getRoleByValue(@Param('value') roleValue: string): Promise<Role> {
+        return await this.roleService.getRoleByValue(roleValue);
     }
 
     @ApiOperation({ summary: 'Update role by id' })

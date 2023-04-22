@@ -11,6 +11,7 @@ import {UserRoles} from "./users/entities/user-roles.entity";
 import { BanModule } from './users/modules/ban.module';
 import {Ban} from "./users/entities/ban.entity";
 import {UserBan} from "./users/entities/user-ban.entity";
+import { UserRolesModule } from './users/modules/user-roles.module';
 
 
 
@@ -44,6 +45,7 @@ import {UserBan} from "./users/entities/user-ban.entity";
         ConfigModule,
         UsersModule,
         RolesModule,
+        UserRolesModule,
         BanModule,
   ],
   providers: [],

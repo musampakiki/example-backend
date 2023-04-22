@@ -5,7 +5,7 @@ import { CreateBanDto, UpdateBanDto } from '../dto/ban.dto';
 import { Ban } from '../entities/ban.entity';
 
 @ApiTags('bans')
-@Controller('bans')
+@Controller('api/bans')
 export class BanController {
     constructor(private readonly banService: BanService) {}
 

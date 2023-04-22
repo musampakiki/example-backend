@@ -3,9 +3,10 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '../entities/users.entity';
 import { UserService } from '../services/users.service';
 import { CreateUserDto, UpdateUserDto } from '../dto/user.dto';
+import {AddRoleDto} from "../dto/add.role.dto";
 
 @ApiTags('users')
-@Controller('users')
+@Controller('api/users')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
@@ -29,6 +30,16 @@ export class UserController {
     @Post()
     async createUser(@Body() userData: CreateUserDto): Promise<User> {
         return await this.userService.create(userData);
+    }
+
+    @ApiOperation({summary: 'Issue a role'})
+    @ApiResponse({status: 200})
+    // @UseGuards(JwtAuthGuard)
+    // @Roles('ADMIN')
+    // @UseGuards(RolesAuthGuard)
+    @Post('/role')
+    addRole(@Body() addRoleDto: AddRoleDto) {
+        return this.userService.addRole(addRoleDto)
     }
 
     @ApiOperation({ summary: 'Update user' })

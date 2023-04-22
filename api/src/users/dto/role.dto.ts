@@ -10,7 +10,7 @@ export class CreateRoleDto {
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    name: string;
+    value: string;
 
     @ApiProperty()
     @IsString()
@@ -27,7 +27,7 @@ export class UpdateRoleDto {
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    name: string;
+    value: string;
 
     @ApiProperty()
     @IsString()

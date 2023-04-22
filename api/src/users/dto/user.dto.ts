@@ -1,8 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {IsOptional, IsString, IsEmail, IsNotEmpty, IsEnum, ValidateNested, IsArray, IsNumber} from 'class-validator';
-import { Type } from 'class-transformer';
-import { CreateRoleDto } from './role.dto';
-import { CreateBanDto } from './ban.dto';
+import {IsOptional, IsString, IsEmail, IsNotEmpty, IsEnum, IsNumber} from 'class-validator';
 
 
 enum Gender {
@@ -16,6 +13,11 @@ export class CreateUserDto {
     @IsNotEmpty()
     @IsNumber()
     id: number;
+
+    @ApiProperty({example: 'login22', description: 'user username'})
+    @IsNotEmpty()
+    @IsString({message: `Should be string`})
+    readonly username: string;
 
     @IsString()
     @IsNotEmpty()
@@ -40,22 +42,15 @@ export class CreateUserDto {
     @IsString()
     @ApiProperty()
     @IsOptional()
-    readonly avatar?: string;
+    readonly avatar: string;
 
     @IsEnum(Gender)
     @ApiProperty({ enum: Gender, example: ['MALE', 'FEMALE', 'OTHER'] })
     readonly gender: Gender;
 
-    @ValidateNested()
-    @Type(() => CreateRoleDto)
-    @IsArray()
-    @ApiProperty({ type: [CreateRoleDto] })
-    readonly roles: CreateRoleDto[];
+    @ApiProperty()
+    readonly verified: boolean;
 
-    @ValidateNested()
-    @Type(() => CreateBanDto)
-    @ApiProperty({ type: CreateBanDto })
-    readonly ban: CreateBanDto;
 }
 
 export class UpdateUserDto {
@@ -63,6 +58,11 @@ export class UpdateUserDto {
     @IsNotEmpty()
     @IsNumber()
     id: number;
+
+    @ApiProperty({example: 'login22', description: 'user username'})
+    @IsNotEmpty()
+    @IsString({message: `Should be string`})
+    readonly username?: string;
 
     @IsString()
     @IsOptional()
@@ -94,16 +94,6 @@ export class UpdateUserDto {
     @ApiProperty({ enum: Gender })
     readonly gender?: Gender;
 
-    @ValidateNested()
-    @Type(() => CreateRoleDto)
-    @IsOptional()
-    @IsArray()
-    @ApiProperty({ type: [CreateRoleDto] })
-    readonly roles?: CreateRoleDto[];
-
-    @ValidateNested()
-    @Type(() => CreateBanDto)
-    @IsOptional()
-    @ApiProperty({ type: CreateBanDto })
-    readonly ban?: CreateBanDto;
+    @ApiProperty()
+    readonly verified?: boolean;
 }

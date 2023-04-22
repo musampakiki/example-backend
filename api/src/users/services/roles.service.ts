@@ -7,32 +7,25 @@ import { CreateRoleDto, UpdateRoleDto } from '../dto/role.dto';
 export class RoleService {
     constructor(
         @InjectModel(Role)
-        private roleModel: typeof Role,
+        private readonly roleModel: typeof Role,
     ) {}
 
-    async findAll(): Promise<Role[]> {
+    async getAllRoles(): Promise<Role[]> {
         return this.roleModel.findAll();
     }
 
-    async findOne(id: number): Promise<Role> {
-        return this.roleModel.findByPk(id);
-    }
-
     async getRoleById(id: number): Promise<Role> {
-        const role = await this.roleModel.findByPk(id);
-        return role;
+        return await this.roleModel.findByPk(id);
     }
 
-    async getAllRoles(): Promise<Role[]> {
-        const roles = await this.roleModel.findAll();
-        return roles
+    async getRoleByValue(value: string){
+        return await this.roleModel.findOne({where: {value}});
     }
 
-    async create(сreateRoleDto: CreateRoleDto): Promise<Role> {
+    async create(roleCreateDto: CreateRoleDto): Promise<Role> {
         const role = new Role();
-        role.userId = сreateRoleDto.userId;
-        role.name = сreateRoleDto.name;
-        role.description = сreateRoleDto.description;
+        role.value = roleCreateDto.value;
+        role.description = roleCreateDto.description;
         return await role.save();
     }
 
@@ -43,8 +36,7 @@ export class RoleService {
             return null;
         }
 
-        role.userId = updateRoleDto.userId;
-        role.name = updateRoleDto.name;
+        role.value = updateRoleDto.value;
         role.description = updateRoleDto.description
 
         await role.save();
