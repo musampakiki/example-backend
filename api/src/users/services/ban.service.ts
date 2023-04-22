@@ -13,8 +13,16 @@ export class BanService {
     async createBan(createBanDto: CreateBanDto): Promise<Ban> {
         const ban = new Ban();
         ban.userId = createBanDto.userId;
+        ban.isBan = createBanDto.isBan;
         ban.reason = createBanDto.reason;
-        ban.expiredAt = new Date(Date.now() + createBanDto.duration);
+        ban.duration = createBanDto.duration;
+        const durationAsDate = new Date(createBanDto.duration);
+
+        if (isNaN(durationAsDate.getTime())) {
+            throw new Error('Invalid duration format');
+        }
+
+        ban.expiredAt = new Date(Date.now() + durationAsDate.getTime());
 
         return await ban.save();
     }
@@ -43,9 +51,16 @@ export class BanService {
             return null;
         }
 
-        ban.userId = updateBanDto.userId;
+        ban.isBan = updateBanDto.isBan;
         ban.reason = updateBanDto.reason;
-        ban.expiredAt = new Date(Date.now() + updateBanDto.duration);
+        ban.duration = updateBanDto.duration;
+        const durationAsDate = new Date(updateBanDto.duration);
+
+        if (isNaN(durationAsDate.getTime())) {
+            throw new Error('Invalid duration format');
+        }
+
+        ban.expiredAt = new Date(Date.now() + durationAsDate.getTime());
 
         return ban.save();
     }
